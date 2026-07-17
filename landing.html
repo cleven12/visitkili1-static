@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VISIT KILI ADVENTURES | Kilimanjaro Treks & Tanzania Safaris</title>
+<meta name="description" content="Climb Kilimanjaro, explore the Serengeti, and relax in Zanzibar with VISIT KILI ADVENTURES — a local Tanzania operator with expert guides, small groups, and transparent pricing.">
+<link rel="canonical" href="https://visitkili.com/">
+
+<style>
+/* ============================================================
+   VISIT KILI ADVENTURES — flat, self-contained landing page
+   No build step, no framework, no CDN. Just HTML + CSS.
+   ============================================================ */
+
+/* ---- Self-hosted Manrope (woff2 in /fonts) ---- */
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:400; font-display:swap; src:url("fonts/manrope-400.woff2") format("woff2"); }
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:500; font-display:swap; src:url("fonts/manrope-500.woff2") format("woff2"); }
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:600; font-display:swap; src:url("fonts/manrope-600.woff2") format("woff2"); }
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:700; font-display:swap; src:url("fonts/manrope-700.woff2") format("woff2"); }
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:800; font-display:swap; src:url("fonts/manrope-800.woff2") format("woff2"); }
+
+/* ---- Theme tokens ---- */
+:root{
+  --vk-blue:#0284c7;
+  --vk-orange:#E8720C;
+  --vk-orange-dark:#cf6208;
+  --vk-green:#1A3A2A;
+  --vk-sand:#FFF8EE;
+  --white:#FFFFFF;
+  --ink:#1A3A2A;
+  --muted:#5b6b62;
+  --line:#e7e2d8;
+  --line-green:rgba(255,255,255,.14);
+
+  --font:"Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Fluid type scale (clamp: min, preferred vw, max) */
+  --step--1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
+  --step-0:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1:  clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2:  clamp(1.45rem, 1.25rem + 1vw, 2rem);
+  --step-3:  clamp(1.9rem, 1.5rem + 2vw, 3rem);
+  --step-4:  clamp(2.4rem, 1.7rem + 3.4vw, 4.25rem);
+
+  --maxw:1200px;
+  --pad:clamp(1.25rem, 5vw, 2.5rem);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  font-family:var(--font);
+  font-weight:500;
+  font-size:var(--step-0);
+  line-height:1.6;
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+h1,h2,h3,h4{ margin:0; font-weight:800; line-height:1.1; letter-spacing:-0.02em; color:var(--vk-green); }
+p{ margin:0; }
+ul{ margin:0; padding:0; list-style:none; }
+:focus-visible{ outline:3px solid var(--vk-blue); outline-offset:2px; border-radius:4px; }
+
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad); }
+.eyebrow{
+  display:inline-block;
+  font-size:var(--step--1);
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--vk-orange);
+  margin:0 0 .75rem;
+}
+.section{ padding-block:clamp(3.5rem, 7vw, 6rem); }
+.section-head{ max-width:56ch; }
+.section-head.center{ margin-inline:auto; text-align:center; }
+.section-title{ font-size:var(--step-3); text-wrap:balance; }
+.lead{ color:var(--muted); font-size:var(--step-1); margin-top:1rem; text-wrap:pretty; }
+
+/* ---- Buttons (flat) ---- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  min-height:52px; padding:0 1.5rem;
+  font-family:inherit; font-size:var(--step-0); font-weight:800;
+  border-radius:10px; border:1.5px solid transparent; cursor:pointer;
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+.btn svg{ width:18px; height:18px; }
+.btn-primary{ background:var(--vk-orange); color:var(--white); }
+.btn-primary:hover{ background:var(--vk-orange-dark); }
+.btn-outline{ background:transparent; color:var(--vk-green); border-color:var(--line); }
+.btn-outline:hover{ border-color:var(--vk-green); }
+.btn-ghost-light{ background:transparent; color:var(--white); border-color:var(--line-green); }
+.btn-ghost-light:hover{ background:rgba(255,255,255,.08); }
+.btn-sm{ min-height:44px; padding:0 1.1rem; font-size:var(--step--1); }
+
+/* ============================================================
+   1. Utility bar
+   ============================================================ */
+.utility{ background:var(--vk-green); color:rgba(255,255,255,.82); font-size:13px; font-weight:600; }
+.utility .wrap{ display:flex; align-items:center; justify-content:space-between; min-height:40px; }
+.utility a{ display:inline-flex; align-items:center; gap:.45rem; }
+.utility a:hover{ color:var(--white); }
+.utility .u-left{ display:flex; gap:1.5rem; }
+.utility .u-right{ display:flex; gap:.35rem; }
+.utility .u-social{ display:grid; place-items:center; width:30px; height:30px; border-radius:8px; color:rgba(255,255,255,.82); }
+.utility .u-social:hover{ background:rgba(255,255,255,.1); color:var(--white); }
+.utility svg{ width:15px; height:15px; }
+.utility .u-social svg{ width:16px; height:16px; }
+@media (max-width:860px){ .utility{ display:none; } }
+
+/* ============================================================
+   2. Main nav
+   ============================================================ */
+.header{ position:sticky; top:0; z-index:50; background:var(--white); border-bottom:1px solid var(--line); }
+.nav{ display:flex; align-items:center; justify-content:space-between; gap:1rem; min-height:74px; }
+.brand{ display:inline-flex; align-items:center; gap:.6rem; font-weight:800; color:var(--vk-green); font-size:1.05rem; letter-spacing:-0.01em; }
+.brand .mark{
+  display:grid; place-items:center; width:40px; height:40px; border-radius:10px;
+  background:var(--vk-green); color:var(--white);
+}
+.brand .mark svg{ width:22px; height:22px; }
+.brand small{ display:block; font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--vk-orange); text-transform:uppercase; }
+.nav-links{ display:flex; align-items:center; gap:.25rem; }
+.nav-links a{ padding:.5rem .8rem; border-radius:8px; font-weight:700; font-size:.95rem; color:var(--ink); transition:color .15s ease, background-color .15s ease; }
+.nav-links a:hover{ color:var(--vk-blue); background:var(--vk-sand); }
+.nav-cta{ display:flex; align-items:center; gap:.75rem; }
+.nav-toggle{ display:none; background:none; border:1.5px solid var(--line); border-radius:10px; width:48px; height:48px; place-items:center; cursor:pointer; color:var(--vk-green); }
+.nav-toggle svg{ width:24px; height:24px; }
+
+@media (max-width:1080px){
+  .nav-links{
+    position:absolute; left:0; right:0; top:100%;
+    flex-direction:column; align-items:stretch; gap:0;
+    background:var(--white); border-bottom:1px solid var(--line);
+    padding:.5rem var(--pad) 1rem;
+    display:none;
+  }
+  .nav-links.open{ display:flex; }
+  .nav-links a{ padding:.85rem .5rem; border-bottom:1px solid var(--line); border-radius:0; }
+  .nav-cta .btn{ display:none; }
+  .nav-toggle{ display:grid; }
+}
+
+/* ============================================================
+   3. Hero
+   ============================================================ */
+.hero{ background:var(--white); text-align:center; padding-block:clamp(3.5rem, 8vw, 7rem); }
+.hero h1{ font-size:var(--step-4); max-width:16ch; margin-inline:auto; text-wrap:balance; }
+.hero .lead{ max-width:60ch; margin-inline:auto; margin-top:1.5rem; }
+.hero .actions{ display:flex; flex-wrap:wrap; gap:.9rem; justify-content:center; margin-top:2rem; }
+
+/* ============================================================
+   4. Staggered photo showcase
+   ============================================================ */
+.showcase{ background:var(--white); padding-bottom:clamp(3.5rem,7vw,6rem); overflow:hidden; }
+.stagger{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:clamp(1rem, 2.5vw, 1.75rem);
+  align-items:start;
+}
+.shot{ position:relative; }
+.shot figure{ margin:0; border-radius:16px; overflow:hidden; border:1px solid var(--line); background:var(--vk-sand); }
+.shot img{ width:100%; height:100%; object-fit:cover; aspect-ratio:3/4; }
+.shot figcaption{
+  position:absolute; left:.75rem; bottom:.75rem;
+  background:var(--white); color:var(--vk-green);
+  font-size:12px; font-weight:800; letter-spacing:.02em;
+  padding:.35rem .7rem; border-radius:999px; border:1px solid var(--line);
+}
+/* asymmetric vertical offsets — flat, just transforms */
+.shot:nth-child(1){ margin-top:0; }
+.shot:nth-child(2){ margin-top:2.5rem; }
+.shot:nth-child(3){ margin-top:.75rem; }
+.shot:nth-child(4){ margin-top:3.25rem; }
+.shot:nth-child(5){ margin-top:1.25rem; }
+@media (max-width:640px){
+  .stagger{ grid-template-columns:repeat(2,1fr); }
+  .shot:nth-child(n){ margin-top:0; }
+  .shot:nth-child(even){ margin-top:2rem; }
+  .shot img{ aspect-ratio:4/5; }
+}
+
+/* ============================================================
+   5. Trust bar
+   ============================================================ */
+.trust{ background:var(--vk-sand); border-block:1px solid var(--line); }
+.trust .wrap{ padding-block:clamp(2rem,4vw,3rem); }
+.trust p{ text-align:center; font-size:var(--step--1); font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:1.75rem; }
+.trust-row{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:clamp(2rem,6vw,4.5rem); }
+.logo-item{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-weight:800; font-size:1.15rem; color:#9aa39c; letter-spacing:-0.01em;
+  filter:grayscale(1); opacity:.7;
+  transition:filter .2s ease, opacity .2s ease, color .2s ease;
+}
+.logo-item svg{ width:26px; height:26px; }
+.logo-item:hover{ filter:grayscale(0); opacity:1; color:var(--vk-green); }
+
+/* ============================================================
+   6. Featured tours
+   ============================================================ */
+.tours{ background:var(--white); }
+.tour-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:clamp(1.25rem, 2.5vw, 1.75rem);
+  margin-top:3rem;
+}
+.card{
+  display:flex; flex-direction:column;
+  border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  background:var(--white);
+  transition:border-color .18s ease;
+}
+.card:hover{ border-color:var(--vk-green); }
+.card-media{ position:relative; }
+.card-media img{ width:100%; aspect-ratio:16/10; object-fit:cover; }
+.tag{
+  position:absolute; top:.85rem; left:.85rem;
+  background:var(--white); color:var(--vk-green);
+  font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+  padding:.35rem .65rem; border-radius:999px; border:1px solid var(--line);
+}
+.tag.trek{ color:var(--vk-orange); }
+.tag.safari{ color:var(--vk-blue); }
+.card-body{ display:flex; flex-direction:column; gap:1rem; padding:1.25rem; flex:1; }
+.card-body h3{ font-size:var(--step-1); }
+.stats{ display:flex; flex-wrap:wrap; gap:1.1rem; color:var(--muted); font-size:var(--step--1); font-weight:700; }
+.stats span{ display:inline-flex; align-items:center; gap:.4rem; }
+.stats svg{ width:16px; height:16px; color:var(--vk-green); }
+.card-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:auto; padding-top:1rem; border-top:1px solid var(--line); }
+.price{ font-size:1.05rem; font-weight:800; color:var(--vk-green); }
+.price small{ display:block; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+
+/* ============================================================
+   7. Why us — flat value props
+   ============================================================ */
+.why{ background:var(--vk-sand); }
+.value-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  gap:clamp(1.75rem, 4vw, 2.75rem);
+  margin-top:3rem;
+}
+.value .v-icon{ display:grid; place-items:center; width:52px; height:52px; border-radius:12px; background:var(--white); border:1px solid var(--line); color:var(--vk-orange); margin-bottom:1.1rem; }
+.value .v-icon svg{ width:26px; height:26px; }
+.value h3{ font-size:var(--step-1); margin-bottom:.5rem; }
+.value p{ color:var(--muted); font-size:var(--step-0); }
+
+/* ============================================================
+   8. Testimonials
+   ============================================================ */
+.reviews{ background:var(--white); }
+.review-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:clamp(1.25rem, 2.5vw, 1.75rem);
+  margin-top:3rem;
+}
+.review{ display:flex; flex-direction:column; gap:1.1rem; border:1px solid var(--line); border-radius:16px; padding:1.75rem; }
+.stars{ display:inline-flex; gap:.15rem; color:var(--vk-orange); }
+.stars svg{ width:18px; height:18px; }
+.review blockquote{ margin:0; font-size:var(--step-1); font-weight:600; color:var(--vk-green); text-wrap:pretty; line-height:1.5; }
+.review .who{ display:flex; align-items:center; gap:.75rem; margin-top:auto; }
+.review .avatar{ display:grid; place-items:center; width:44px; height:44px; border-radius:999px; background:var(--vk-green); color:var(--white); font-weight:800; font-size:.95rem; }
+.review .who b{ display:block; color:var(--vk-green); font-weight:800; }
+.review .who span{ font-size:var(--step--1); color:var(--muted); }
+
+/* ============================================================
+   9. CTA banner
+   ============================================================ */
+.cta-banner{ background:var(--vk-green); color:var(--white); }
+.cta-banner .wrap{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.75rem; padding-block:clamp(3rem,6vw,4.5rem); }
+.cta-banner h2{ color:var(--white); font-size:var(--step-3); max-width:20ch; text-wrap:balance; }
+.cta-banner p{ color:rgba(255,255,255,.75); margin-top:.75rem; max-width:48ch; }
+
+/* ============================================================
+   10. Footer
+   ============================================================ */
+.footer{ background:var(--vk-green); color:rgba(255,255,255,.7); }
+.footer .wrap{ padding-block:clamp(3rem,6vw,4.5rem); }
+.footer-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:2.5rem; }
+.footer .brand{ color:var(--white); }
+.footer h4{ color:var(--white); font-size:1rem; margin-bottom:1.1rem; letter-spacing:.02em; }
+.footer p{ font-size:var(--step--1); line-height:1.7; }
+.footer-col li{ margin-bottom:.7rem; }
+.footer-col a{ font-size:.95rem; font-weight:600; color:rgba(255,255,255,.7); }
+.footer-col a:hover{ color:var(--white); }
+.footer-contact li{ display:flex; align-items:flex-start; gap:.6rem; margin-bottom:.9rem; font-size:.95rem; }
+.footer-contact svg{ width:18px; height:18px; color:var(--vk-orange); flex-shrink:0; margin-top:2px; }
+.footer-social{ display:flex; gap:.5rem; margin-top:1.1rem; }
+.footer-social a{ display:grid; place-items:center; width:40px; height:40px; border-radius:10px; border:1px solid var(--line-green); color:var(--white); }
+.footer-social a:hover{ background:rgba(255,255,255,.08); }
+.footer-social svg{ width:19px; height:19px; }
+.footer-bottom{ border-top:1px solid var(--line-green); margin-top:3rem; padding-top:1.75rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; font-size:var(--step--1); }
+.footer-bottom a:hover{ color:var(--white); }
+
+/* ---- Scroll reveal (lightweight) ---- */
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+  html{ scroll-behavior:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1. Utility bar -->
+<div class="utility">
+  <div class="wrap">
+    <div class="u-left">
+      <a href="tel:+255741788255">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +255 741 788 255
+      </a>
+      <a href="mailto:info@visitkili.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        info@visitkili.com
+      </a>
+    </div>
+    <div class="u-right">
+      <a class="u-social" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+      <a class="u-social" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      <a class="u-social" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.53A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12c1.89.53 9.39.53 9.39.53s7.5 0 9.39-.53a3 3 0 0 0 2.11-2.12A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Main nav -->
+<header class="header">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="VISIT KILI ADVENTURES home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/><path d="m8 11 3-6"/></svg>
+      </span>
+      <span>VISIT KILI<small>Adventures</small></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#tours">Kilimanjaro</a>
+      <a href="#tours">Safaris</a>
+      <a href="#tours">Zanzibar</a>
+      <a href="#tours">Day Trips</a>
+      <a href="#reviews">Guides</a>
+      <a href="#why">About</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a class="btn btn-primary btn-sm" href="#plan">Get Free Trip Plan</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 3. Hero -->
+  <section class="hero">
+    <div class="wrap reveal">
+      <span class="eyebrow">Tanzania Safari &amp; Trekking Specialists</span>
+      <h1>Climb Kilimanjaro. See the Serengeti. Relax in Zanzibar.</h1>
+      <p class="lead">Locally guided adventures across Tanzania — expert-led Kilimanjaro treks, private wildlife safaris, and Zanzibar escapes, planned around you with honest, transparent pricing.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#plan">
+          Plan My Trip
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-outline" href="#tours">Browse Tours</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Staggered photo showcase -->
+  <section class="showcase">
+    <div class="wrap">
+      <div class="stagger reveal">
+        <div class="shot">
+          <figure><img src="images/showcase-kilimanjaro-summit.png" alt="Trekker at the snowy summit of Mount Kilimanjaro at sunrise" loading="lazy" decoding="async" width="600" height="800"></figure>
+          <figcaption>Kilimanjaro Summit</figcaption>
+        </div>
+        <div class="shot">
+          <figure><img src="images/showcase-safari-jeep.png" alt="Safari jeep near elephants on the Serengeti plains" loading="lazy" decoding="async" width="600" height="800"></figure>
+          <figcaption>Serengeti Safari</figcaption>
+        </div>
+        <div class="shot">
+          <figure><img src="images/showcase-zanzibar-beach.png" alt="Couple walking along a white sand Zanzibar beach" loading="lazy" decoding="async" width="600" height="800"></figure>
+          <figcaption>Zanzibar Beaches</figcaption>
+        </div>
+        <div class="shot">
+          <figure><img src="images/showcase-balloons.png" alt="Hot air balloons floating over the Serengeti plains at sunrise" loading="lazy" decoding="async" width="600" height="800"></figure>
+          <figcaption>Balloon Safari</figcaption>
+        </div>
+        <div class="shot">
+          <figure><img src="images/showcase-big-five.png" alt="Close-up of a male lion resting in the savanna" loading="lazy" decoding="async" width="600" height="800"></figure>
+          <figcaption>Big Five Wildlife</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Trust bar -->
+  <section class="trust">
+    <div class="wrap reveal">
+      <p>Trusted &amp; reviewed by travelers worldwide</p>
+      <div class="trust-row">
+        <span class="logo-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          TripAdvisor
+        </span>
+        <span class="logo-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.35 11.1H12v2.8h5.35C16.9 16.3 14.7 17.9 12 17.9A5.9 5.9 0 0 1 12 6.1c1.5 0 2.85.55 3.9 1.45l2-2A8.7 8.7 0 0 0 12 3.2 8.8 8.8 0 1 0 20.8 12c0-.3-.05-.6-.1-.9z"/></svg>
+          Google Reviews
+        </span>
+        <span class="logo-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v10l9 5 9-5V7z"/></svg>
+          SafariBookings
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Featured tours -->
+  <section class="section tours" id="tours">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Popular Right Now</span>
+        <h2 class="section-title">Featured Tours</h2>
+        <p class="lead">A handpicked mix of our most-booked Kilimanjaro routes and Northern Circuit safaris. Every trip is private and fully customizable.</p>
+      </div>
+
+      <div class="tour-grid">
+
+        <!-- Card 1 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-machame.png" alt="Trekkers ascending Kilimanjaro's Machame Route" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag trek">Kilimanjaro Trek</span>
+          </div>
+          <div class="card-body">
+            <h3>Machame Route — 7 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>7 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg>Challenging</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$2,190 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-serengeti.png" alt="Wildebeest migration crossing the Serengeti plains" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag safari">Wildlife Safari</span>
+          </div>
+          <div class="card-body">
+            <h3>Serengeti Migration — 5 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>5 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Easy</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$1,850 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-marangu.png" alt="Snow-capped Kilimanjaro above the Marangu Route" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag trek">Kilimanjaro Trek</span>
+          </div>
+          <div class="card-body">
+            <h3>Marangu Route — 6 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>6 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg>Moderate</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$1,790 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-ngorongoro.png" alt="View into the Ngorongoro Crater with wildlife" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag safari">Wildlife Safari</span>
+          </div>
+          <div class="card-body">
+            <h3>Ngorongoro &amp; Tarangire — 4 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>4 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Easy</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$1,490 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-zanzibar.png" alt="Traditional dhow sailboat on turquoise Zanzibar water" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag safari">Beach Escape</span>
+          </div>
+          <div class="card-body">
+            <h3>Zanzibar Beach Getaway — 5 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>5 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Relaxed</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$1,240 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="card reveal">
+          <div class="card-media">
+            <img src="images/tour-tarangire.png" alt="Elephants among baobab trees in Tarangire National Park" loading="lazy" decoding="async" width="480" height="300">
+            <span class="tag safari">Wildlife Safari</span>
+          </div>
+          <div class="card-body">
+            <h3>Great Northern Circuit — 8 Days</h3>
+            <div class="stats">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>8 days</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Easy</span>
+            </div>
+            <div class="card-foot">
+              <span class="price">$2,980 <small>per person</small></span>
+              <a class="btn btn-outline btn-sm" href="#plan">Details</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Why us -->
+  <section class="section why" id="why">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Why Travel With Us</span>
+        <h2 class="section-title">The VISIT KILI ADVENTURES difference</h2>
+      </div>
+      <div class="value-grid">
+        <div class="value reveal">
+          <span class="v-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <h3>Local Expertise</h3>
+          <p>Born and based in Moshi — our guides know every route, park, and season firsthand.</p>
+        </div>
+        <div class="value reveal">
+          <span class="v-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <h3>Transparent Pricing</h3>
+          <p>Clear, all-inclusive quotes with no hidden fees — you always know what you pay for.</p>
+        </div>
+        <div class="value reveal">
+          <span class="v-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <h3>Small Groups</h3>
+          <p>Private departures and intimate group sizes for a personal, unhurried experience.</p>
+        </div>
+        <div class="value reveal">
+          <span class="v-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <h3>Safety First</h3>
+          <p>Certified guides, quality gear, and oximeter health checks on every climb.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Testimonials -->
+  <section class="section reviews" id="reviews">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Traveler Stories</span>
+        <h2 class="section-title">What our guests say</h2>
+      </div>
+      <div class="review-grid">
+        <figure class="review reveal">
+          <span class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+          </span>
+          <blockquote>"Reaching Uhuru Peak was the trip of a lifetime. Our guide's pacing and encouragement got all six of us to the summit safely."</blockquote>
+          <figcaption class="who">
+            <span class="avatar" aria-hidden="true">SM</span>
+            <span><b>Sarah M.</b><span>United Kingdom</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="review reveal">
+          <span class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+          </span>
+          <blockquote>"The Serengeti safari exceeded every expectation. We saw the full Big Five and the migration river crossing. Flawlessly organized."</blockquote>
+          <figcaption class="who">
+            <span class="avatar" aria-hidden="true">DR</span>
+            <span><b>Daniel R.</b><span>Germany</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="review reveal">
+          <span class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+          </span>
+          <blockquote>"They tailored a Kilimanjaro climb plus Zanzibar beach week for our honeymoon. Honest pricing and genuinely warm people."</blockquote>
+          <figcaption class="who">
+            <span class="avatar" aria-hidden="true">AL</span>
+            <span><b>Aisha &amp; Liam</b><span>United States</span></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. CTA banner -->
+  <section class="cta-banner" id="plan">
+    <div class="wrap">
+      <div>
+        <h2>Ready to start planning?</h2>
+        <p>Tell us your dates and dream itinerary. We'll send a free, no-obligation trip plan within 24 hours.</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:info@visitkili.com">
+        Get My Free Trip Plan
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- 10. Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="VISIT KILI ADVENTURES home">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/><path d="m8 11 3-6"/></svg>
+          </span>
+          <span>VISIT KILI<small>Adventures</small></span>
+        </a>
+        <p style="margin-top:1.1rem;">A local Moshi-based operator crafting Kilimanjaro treks, Tanzania safaris, and Zanzibar escapes with expert guides and honest pricing.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#tours">Kilimanjaro Treks</a></li>
+          <li><a href="#tours">Wildlife Safaris</a></li>
+          <li><a href="#tours">Zanzibar Escapes</a></li>
+          <li><a href="#tours">Day Trips</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#why">About Us</a></li>
+          <li><a href="#reviews">Traveler Reviews</a></li>
+          <li><a href="#plan">Plan a Trip</a></li>
+          <li><a href="mailto:info@visitkili.com">FAQ &amp; Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Get in touch</h4>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Moshi, Kilimanjaro Region, Tanzania
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <a href="tel:+255741788255">+255 741 788 255</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            <a href="mailto:info@visitkili.com">info@visitkili.com</a>
+          </li>
+        </ul>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.53A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12c1.89.53 9.39.53 9.39.53s7.5 0 9.39-.53a3 3 0 0 0 2.11-2.12A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span id="year">2026</span> VISIT KILI ADVENTURES. All rights reserved.</span>
+      <span><a href="#top">Back to top &uarr;</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if(toggle && links){
+      toggle.addEventListener('click', function(){
+        var open = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function(e){
+        if(e.target.tagName === 'A'){ links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+      });
+    }
+  })();
+
+  // Lightweight scroll reveal
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  // Current year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
