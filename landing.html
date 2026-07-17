@@ -65,6 +65,17 @@ h1,h2,h3{ color:var(--forest); font-weight:800; letter-spacing:0; line-height:1.
 p{ text-wrap:pretty; }
 ul{ margin:0; padding:0; list-style:none; }
 :focus-visible{ outline:3px solid var(--sky); outline-offset:3px; border-radius:6px; }
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
 
 .shell{ width:min(100%, var(--max)); margin-inline:auto; padding-inline:var(--pad); }
 .section{ padding-block:clamp(4.5rem, 8vw, 7.5rem); }
@@ -153,15 +164,102 @@ ul{ margin:0; padding:0; list-style:none; }
 .icon-btn:hover{ transform:translateY(-2px); background:var(--white); }
 .icon-btn svg{ width:20px; height:20px; }
 
+/* Component: utility bar */
+.utility{
+  position:fixed;
+  top:10px;
+  left:0;
+  right:0;
+  z-index:90;
+  padding-inline:var(--pad);
+  color:rgba(255,255,255,.84);
+  pointer-events:none;
+}
+.utility-inner{
+  pointer-events:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  width:min(100%, 1400px);
+  min-height:38px;
+  margin-inline:auto;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  padding:.35rem .85rem;
+  background:rgba(9,32,24,.42);
+  box-shadow:0 12px 36px rgba(9,32,24,.14);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  transition:background .3s ease-out, border-color .3s ease-out, color .3s ease-out;
+}
+.utility.is-solid .utility-inner{ color:rgba(20,53,38,.78); background:rgba(255,255,255,.92); border-color:rgba(20,53,38,.1); }
+.u-left,
+.u-right{
+  display:flex;
+  align-items:center;
+  gap:.65rem;
+  min-width:0;
+}
+.u-right a{
+  display:inline-flex;
+  align-items:center;
+  gap:.42rem;
+  font-size:.78rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+.u-right a:hover{ color:var(--white); }
+.utility.is-solid .u-right a:hover{ color:var(--forest); }
+.u-right svg,
+.u-social svg{ width:15px; height:15px; }
+.u-social{
+  display:grid !important;
+  width:28px;
+  height:28px;
+  place-items:center;
+  border-radius:999px;
+  background:rgba(255,255,255,.09);
+}
+.utility.is-solid .u-social{ background:rgba(20,53,38,.06); }
+.rev-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.42rem;
+  min-width:0;
+  font-size:.76rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+.rev-plat{ color:inherit; }
+.rev-stars{
+  display:inline-flex;
+  gap:.08rem;
+  color:var(--sunrise);
+}
+.rev-stars svg{ width:13px; height:13px; }
+.rev-score{
+  color:rgba(255,255,255,.72);
+  font-weight:700;
+}
+.utility.is-solid .rev-score{ color:var(--muted); }
+.rev-sep{
+  width:1px;
+  height:16px;
+  background:rgba(255,255,255,.24);
+}
+.utility.is-solid .rev-sep{ background:rgba(20,53,38,.14); }
+
 /* Component: floating navbar */
 .site-header{
   position:fixed;
-  top:16px;
+  top:58px;
   left:0;
   right:0;
   z-index:80;
   padding-inline:var(--pad);
   pointer-events:none;
+  transition:top .3s ease-out;
 }
 .nav{
   pointer-events:auto;
@@ -169,20 +267,23 @@ ul{ margin:0; padding:0; list-style:none; }
   align-items:center;
   justify-content:space-between;
   gap:1rem;
-  width:min(100%, 1240px);
-  min-height:70px;
+  width:min(100%, 1400px);
+  min-height:96px;
   margin-inline:auto;
-  padding:.6rem .7rem .6rem .95rem;
+  padding:.9rem 1rem .9rem 1.1rem;
   border:1px solid rgba(255,255,255,.24);
   border-radius:999px;
   color:var(--white);
   background:rgba(9,32,24,.18);
   backdrop-filter:blur(18px) saturate(140%);
   -webkit-backdrop-filter:blur(18px) saturate(140%);
-  transition:background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease);
+  transition:min-height .3s ease-out, padding .3s ease-out, width .3s ease-out, background .3s ease-out, color .3s ease-out, border-color .3s ease-out, box-shadow .3s ease-out;
 }
 .site-header.is-solid .nav,
 .nav:focus-within{
+  width:min(100%, 1240px);
+  min-height:72px;
+  padding:.55rem .65rem .55rem .75rem;
   color:var(--forest);
   border-color:rgba(20,53,38,.12);
   background:rgba(255,255,255,.92);
@@ -194,6 +295,19 @@ ul{ margin:0; padding:0; list-style:none; }
   gap:.7rem;
   min-width:max-content;
   font-weight:800;
+}
+.brand-text{
+  display:block;
+  width:132px;
+  overflow:hidden;
+  opacity:1;
+  transform:translateX(0);
+  transition:opacity .3s ease-out, width .3s ease-out, transform .3s ease-out;
+}
+.site-header.is-solid .brand-text{
+  width:0;
+  opacity:0;
+  transform:translateX(-10px);
 }
 .brand-mark{
   display:grid;
@@ -324,25 +438,50 @@ ul{ margin:0; padding:0; list-style:none; }
   align-items:center;
   gap:.5rem;
 }
+.nav-select{
+  display:inline-flex;
+  min-height:46px;
+  align-items:center;
+  gap:.35rem;
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:999px;
+  padding:0 .78rem;
+  color:inherit;
+  background:rgba(255,255,255,.12);
+  font-size:.82rem;
+  font-weight:800;
+  transition:background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.nav-select span{ color:var(--sunrise); }
+.site-header.is-solid .nav-select,
+.nav:focus-within .nav-select{
+  border-color:rgba(20,53,38,.12);
+  background:rgba(20,53,38,.05);
+}
+.site-header.is-solid #searchToggle{
+  color:var(--white);
+  background:var(--forest);
+  border-color:var(--forest);
+}
 .search-panel{
-  position:absolute;
-  top:calc(100% + 14px);
-  right:0;
-  width:min(460px, calc(100vw - 32px));
-  padding:12px;
+  position:fixed;
+  top:clamp(86px, 14vh, 132px);
+  left:50%;
+  width:min(760px, calc(100vw - 32px));
+  padding:18px;
   border:1px solid rgba(20,53,38,.12);
-  border-radius:24px;
+  border-radius:28px;
   background:rgba(255,255,255,.97);
   box-shadow:0 26px 70px rgba(9,32,24,.18);
   opacity:0;
   pointer-events:none;
-  transform:translateY(8px);
-  transition:opacity .2s var(--ease), transform .2s var(--ease);
+  transform:translateX(-50%) translateY(8px);
+  transition:opacity .25s ease-out, transform .25s ease-out;
 }
 .search-panel.open{
   opacity:1;
   pointer-events:auto;
-  transform:translateY(0);
+  transform:translateX(-50%) translateY(0);
 }
 .search-form{
   display:grid;
@@ -350,26 +489,52 @@ ul{ margin:0; padding:0; list-style:none; }
   gap:.5rem;
 }
 .search-form input{
-  min-height:48px;
+  min-height:58px;
   width:100%;
   border:1px solid var(--line);
   border-radius:999px;
-  padding:0 1rem;
+  padding:0 1.15rem;
   color:var(--forest);
   background:var(--mist);
+  font-size:1rem;
+  font-weight:700;
   outline:0;
+}
+.finder-label{
+  margin:.25rem 0 1rem;
+  color:var(--forest);
+  font-size:1.25rem;
+  font-weight:800;
+}
+.finder-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin-top:1rem;
+}
+.finder-chips a{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:.55rem .8rem;
+  color:var(--forest);
+  background:var(--white);
+  font-size:.86rem;
+  font-weight:800;
 }
 .search-results{
   display:grid;
-  gap:.35rem;
-  margin-top:.75rem;
+  grid-template-columns:1fr 1fr;
+  gap:.5rem;
+  margin-top:1rem;
 }
 .search-results a{
   display:flex;
   justify-content:space-between;
   gap:1rem;
   border-radius:14px;
-  padding:.75rem .85rem;
+  padding:.85rem .95rem;
   color:var(--forest);
   background:var(--mist);
   font-size:.9rem;
@@ -1073,6 +1238,36 @@ ul{ margin:0; padding:0; list-style:none; }
 }
 .footer li + li{ margin-top:.45rem; }
 .footer a:hover{ color:var(--white); }
+.footer-trust{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:1rem;
+  border-top:1px solid rgba(255,255,255,.12);
+  padding-block:1.25rem;
+}
+.badge-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+.trust-badge,
+.payment-badge{
+  display:inline-flex;
+  min-height:36px;
+  align-items:center;
+  gap:.45rem;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  padding:0 .75rem;
+  color:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.06);
+  font-size:.78rem;
+  font-weight:800;
+}
+.payment-badge strong{
+  color:var(--white);
+  letter-spacing:.04em;
+}
 .footer-bottom{
   display:flex;
   justify-content:space-between;
@@ -1081,6 +1276,56 @@ ul{ margin:0; padding:0; list-style:none; }
   padding-block:1.1rem;
   font-size:.85rem;
 }
+
+/* Component: floating assist buttons */
+.assist-dock{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:85;
+  display:grid;
+  gap:.65rem;
+  justify-items:end;
+}
+.chat-popover{
+  display:none;
+  width:min(320px, calc(100vw - 36px));
+  border:1px solid rgba(20,53,38,.14);
+  border-radius:20px;
+  padding:1rem;
+  color:var(--forest);
+  background:rgba(255,255,255,.96);
+  box-shadow:0 22px 60px rgba(9,32,24,.2);
+}
+.chat-popover.open{ display:block; }
+.chat-popover strong{ display:block; font-size:1rem; }
+.chat-popover p{ margin-top:.35rem; color:var(--muted); font-size:.9rem; }
+.chat-popover a{
+  display:inline-flex;
+  margin-top:.8rem;
+  color:var(--sunrise);
+  font-size:.88rem;
+  font-weight:800;
+}
+.assist-btn{
+  display:inline-flex;
+  min-height:52px;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  border:1px solid rgba(255,255,255,.34);
+  border-radius:999px;
+  padding:0 1rem;
+  color:var(--white);
+  background:var(--forest);
+  box-shadow:0 16px 42px rgba(9,32,24,.22);
+  font-size:.88rem;
+  font-weight:800;
+  transition:transform .2s var(--ease), background .2s var(--ease);
+}
+.assist-btn:hover{ transform:translateY(-2px); background:var(--jungle); }
+.assist-btn.whatsapp{ background:#128c4a; }
+.assist-btn svg{ width:19px; height:19px; }
 
 /* Component: reveal motion */
 .reveal{
@@ -1099,12 +1344,15 @@ ul{ margin:0; padding:0; list-style:none; }
 
 /* Responsive */
 @media (max-width:1100px){
+  .utility{ display:none; }
+  .site-header{ top:14px; }
   .nav-links{ display:none; }
   .menu-toggle{ display:grid; }
-  .nav-actions .btn{ display:none; }
+  .nav-actions .btn,
+  .nav-actions .nav-select{ display:none; }
   .nav-links.open{
     position:fixed;
-    inset:86px 16px auto;
+    inset:88px 16px auto;
     display:grid;
     gap:.35rem;
     padding:.75rem;
@@ -1136,10 +1384,21 @@ ul{ margin:0; padding:0; list-style:none; }
   .reviews-grid{ grid-template-columns:1fr; }
   .footer-main{ grid-template-columns:1fr 1fr; }
 }
+@media (max-width:1320px){
+  .utility .rev-hide{ display:none; }
+}
 @media (max-width:720px){
   .site-header{ top:10px; padding-inline:10px; }
   .nav{ min-height:62px; padding:.45rem .5rem .45rem .7rem; }
-  .brand span{ display:none; }
+  .brand-text{ display:none; }
+  .search-panel{
+    inset:auto 10px 10px;
+    width:auto;
+    border-radius:24px;
+    transform:translateY(20px);
+  }
+  .search-panel.open{ transform:translateY(0); }
+  .search-results{ grid-template-columns:1fr; }
   .hero{ min-height:100svh; }
   .hero-shell{ padding-top:7.5rem; padding-bottom:3rem; }
   .hero h1{ font-size:clamp(3rem, 16vw, 4.5rem); }
@@ -1161,7 +1420,10 @@ ul{ margin:0; padding:0; list-style:none; }
   .gallery figure:nth-child(1) img,
   .gallery figure:nth-child(3) img{ min-height:290px; }
   .footer-main{ grid-template-columns:1fr; }
+  .footer-trust{ grid-template-columns:1fr; }
   .footer-bottom{ flex-direction:column; }
+  .assist-dock{ right:12px; bottom:12px; }
+  .assist-btn{ min-height:48px; padding:0 .85rem; font-size:.8rem; }
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -1176,6 +1438,40 @@ ul{ margin:0; padding:0; list-style:none; }
 </head>
 
 <body>
+<div class="utility" id="utilityBar" aria-label="Review and contact bar">
+  <div class="utility-inner">
+    <div class="u-left">
+      <span class="rev-badge" title="TripAdvisor rating">
+        <span class="rev-plat">TripAdvisor</span>
+        <span class="rev-stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+        </span>
+        <span class="rev-score">4.9 · 1,200+ reviews</span>
+      </span>
+      <span class="rev-sep" aria-hidden="true"></span>
+      <span class="rev-badge rev-hide" title="Google Business Profile rating"><span class="rev-plat">Google</span><span class="rev-stars" aria-hidden="true">&starf;&starf;&starf;&starf;&starf;</span><span class="rev-score">4.8</span></span>
+      <span class="rev-sep rev-hide" aria-hidden="true"></span>
+      <span class="rev-badge rev-hide" title="SafariBookings rating"><span class="rev-plat">SafariBookings</span><span class="rev-stars" aria-hidden="true">&starf;&starf;&starf;&starf;&starf;</span><span class="rev-score">5.0</span></span>
+      <span class="rev-sep rev-hide" aria-hidden="true"></span>
+      <span class="rev-badge rev-hide" title="Marketplace partner badges"><span class="rev-plat">Trustindex</span><span class="rev-score">Verified</span></span>
+      <span class="rev-badge rev-hide" title="GetYourGuide partner badge"><span class="rev-plat">GetYourGuide</span><span class="rev-score">Partner</span></span>
+    </div>
+    <div class="u-right">
+      <a href="tel:+255741788255" class="rev-hide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +255 741 788 255
+      </a>
+      <a href="mailto:info@visitkili.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        info@visitkili.com
+      </a>
+      <a class="u-social" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+      <a class="u-social" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      <a class="u-social" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.53A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12c1.89.53 9.39.53 9.39.53s7.5 0 9.39-.53a3 3 0 0 0 2.11-2.12A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg></a>
+    </div>
+  </div>
+</div>
+
 <header class="site-header" id="siteHeader">
   <nav class="nav" aria-label="Primary navigation">
     <a class="brand" href="#top" aria-label="Visit Kili Adventures home">
@@ -1184,7 +1480,7 @@ ul{ margin:0; padding:0; list-style:none; }
           <path d="m3 19 6-12 4 8 2-4 6 8H3Z"></path>
         </svg>
       </span>
-      <span>Visit Kili<small>Adventures</small></span>
+      <span class="brand-text">Visit Kili<small>Adventures</small></span>
     </a>
 
     <div class="nav-links" id="navLinks">
@@ -1217,15 +1513,17 @@ ul{ margin:0; padding:0; list-style:none; }
       </div>
       <a class="nav-link" href="#destinations">Destinations</a>
       <a class="nav-link" href="#timeline">Travel Guide</a>
-      <a class="nav-link" href="#reviews">Reviews</a>
-      <a class="nav-link" href="#faq">FAQ</a>
+      <a class="nav-link" href="#journal">Blog</a>
       <a class="nav-link" href="#footer">About</a>
+      <a class="nav-link" href="#plan">Contact</a>
     </div>
 
     <div class="nav-actions">
-      <button class="icon-btn" id="searchToggle" type="button" aria-expanded="false" aria-controls="searchPanel" aria-label="Open search">
+      <button class="icon-btn search-btn" id="searchToggle" type="button" aria-expanded="false" aria-controls="searchPanel" aria-label="Open Adventure Finder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
       </button>
+      <button class="nav-select" type="button" aria-label="Change currency"><span>$</span> USD</button>
+      <button class="nav-select" type="button" aria-label="Change language">EN</button>
       <a class="btn btn-light" href="https://wa.me/255741788255" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       <a class="btn btn-primary" href="#plan">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect></svg>
@@ -1235,17 +1533,29 @@ ul{ margin:0; padding:0; list-style:none; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
       </button>
       <div class="search-panel" id="searchPanel" aria-label="Search panel">
+        <p class="finder-label">Where would you like to explore Tanzania?</p>
         <form class="search-form" action="/tours/search/" method="get">
           <label class="sr-only" for="siteSearch">Search trips</label>
-          <input id="siteSearch" name="q" type="search" placeholder="Search Kilimanjaro, Serengeti, Zanzibar...">
+          <input id="siteSearch" name="q" type="search" placeholder="Search Kilimanjaro, Serengeti, Zanzibar, family, honeymoon...">
           <button class="icon-btn" type="submit" aria-label="Submit search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
           </button>
         </form>
+        <div class="finder-chips" aria-label="Quick adventure categories">
+          <a href="#adventures">Kilimanjaro</a>
+          <a href="#adventures">Safari</a>
+          <a href="#adventures">Zanzibar</a>
+          <a href="#destinations">Day Trips</a>
+          <a href="#plan">Luxury</a>
+          <a href="#plan">Family</a>
+        </div>
         <div class="search-results" aria-label="Popular searches">
-          <a href="#adventures">Machame Route <span>7 days</span></a>
-          <a href="#destinations">Serengeti Safari <span>migration</span></a>
-          <a href="#timeline">Climb + Safari <span>custom</span></a>
+          <a href="#adventures">Machame Route <span>Route</span></a>
+          <a href="#adventures">7-Day Machame <span>Tour</span></a>
+          <a href="#destinations">Serengeti Safari <span>Safari</span></a>
+          <a href="#destinations">Ngorongoro Crater <span>Destination</span></a>
+          <a href="#journal">Packing List <span>Guide</span></a>
+          <a href="#plan">Family Safari <span>Planner</span></a>
         </div>
       </div>
     </div>
@@ -1594,6 +1904,28 @@ ul{ margin:0; padding:0; list-style:none; }
         </ul>
       </div>
     </div>
+    <div class="footer-trust" aria-label="Booking, privacy, and payment badges">
+      <div>
+        <h3>Booking trust</h3>
+        <div class="badge-row">
+          <span class="trust-badge">Instant booking request</span>
+          <span class="trust-badge">WhatsApp planner</span>
+          <span class="trust-badge">Secure checkout</span>
+          <span class="trust-badge">GDPR-aligned data privacy</span>
+          <span class="trust-badge">PCI DSS payment standards</span>
+        </div>
+      </div>
+      <div>
+        <h3>Accepted payments</h3>
+        <div class="badge-row">
+          <span class="payment-badge"><strong>DPO</strong> Pay</span>
+          <span class="payment-badge"><strong>VISA</strong></span>
+          <span class="payment-badge"><strong>Mastercard</strong></span>
+          <span class="payment-badge"><strong>UnionPay</strong></span>
+          <span class="payment-badge"><strong>3D Secure</strong></span>
+        </div>
+      </div>
+    </div>
     <div class="footer-bottom">
       <span>&copy; <span id="year">2026</span> Visit Kili Adventures. All rights reserved.</span>
       <span>Static prototype ready for Django component extraction.</span>
@@ -1601,18 +1933,70 @@ ul{ margin:0; padding:0; list-style:none; }
   </div>
 </footer>
 
+<div class="assist-dock" aria-label="Quick contact actions">
+  <div class="chat-popover" id="chatPopover" role="dialog" aria-label="Trip assistant" aria-hidden="true">
+    <strong>Trip assistant</strong>
+    <p>Tell us your month, group size, and whether you want Kilimanjaro, safari, Zanzibar, or all three.</p>
+    <a href="#plan">Start a quick plan</a>
+  </div>
+  <a class="assist-btn whatsapp" href="https://wa.me/255741788255?text=Hi%20Visit%20Kili%2C%20I%20would%20like%20help%20planning%20a%20Tanzania%20trip." target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.8 11.8 0 0 0 12.1 0C5.57 0 .25 5.32.25 11.86c0 2.1.55 4.15 1.6 5.96L.15 24l6.32-1.66a11.86 11.86 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.45-8.43ZM12.1 21.76h-.01a9.84 9.84 0 0 1-5.02-1.38l-.36-.22-3.75.98 1-3.65-.24-.38a9.86 9.86 0 1 1 8.38 4.65Zm5.41-7.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z"/></svg>
+    WhatsApp
+  </a>
+  <button class="assist-btn" id="chatBubble" type="button" aria-expanded="false" aria-controls="chatPopover">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+    Chatbot
+  </button>
+</div>
+
 <script>
 (function(){
   var header = document.getElementById("siteHeader");
+  var utility = document.getElementById("utilityBar");
   var menuToggle = document.getElementById("menuToggle");
   var navLinks = document.getElementById("navLinks");
   var searchToggle = document.getElementById("searchToggle");
   var searchPanel = document.getElementById("searchPanel");
+  var siteSearch = document.getElementById("siteSearch");
+  var searchResults = searchPanel ? searchPanel.querySelector(".search-results") : null;
+  var chatBubble = document.getElementById("chatBubble");
+  var chatPopover = document.getElementById("chatPopover");
   var year = document.getElementById("year");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var suggestions = [
+    { key:"mach kili climb route", title:"Machame Route", meta:"Route", href:"#adventures" },
+    { key:"machame 7 day", title:"7-Day Machame", meta:"Tour", href:"#adventures" },
+    { key:"lemosho kili climb", title:"Lemosho Route", meta:"Route", href:"#adventures" },
+    { key:"marangu hut kili", title:"Marangu Route", meta:"Route", href:"#destinations" },
+    { key:"ser serengeti lion migration safari", title:"Serengeti Safari", meta:"Safari", href:"#destinations" },
+    { key:"ngorongoro crater safari rhino", title:"Ngorongoro Crater", meta:"Destination", href:"#destinations" },
+    { key:"family kids private lodge", title:"Family Safari", meta:"Planner", href:"#plan" },
+    { key:"honeymoon luxury zanzibar private camp balloon", title:"Honeymoon Tanzania", meta:"Planner", href:"#plan" },
+    { key:"packing gear list machame climb", title:"Kilimanjaro Packing List", meta:"Guide", href:"#journal" },
+    { key:"zanzibar beach coast stone town", title:"Zanzibar Extension", meta:"Beach", href:"#adventures" }
+  ];
 
   function setHeader(){
-    header.classList.toggle("is-solid", window.scrollY > 24);
+    var scrolled = window.scrollY > 120;
+    header.classList.toggle("is-solid", scrolled);
+    if (utility) utility.classList.toggle("is-solid", scrolled);
+  }
+
+  function renderSuggestions(query){
+    if (!searchResults) return;
+    var q = (query || "").trim().toLowerCase();
+    var list = suggestions.filter(function(item){
+      return !q || item.key.indexOf(q) > -1 || item.title.toLowerCase().indexOf(q) > -1;
+    }).slice(0, 6);
+    if (!list.length) {
+      list = [
+        { title:"Custom Tanzania Plan", meta:"Planner", href:"#plan" },
+        { title:"Talk to a Local Expert", meta:"WhatsApp", href:"https://wa.me/255741788255" }
+      ];
+    }
+    searchResults.innerHTML = list.map(function(item){
+      return '<a href="' + item.href + '">' + item.title + '<span>' + item.meta + '</span></a>';
+    }).join("");
   }
 
   function closeMenu(){
@@ -1658,14 +2042,39 @@ ul{ margin:0; padding:0; list-style:none; }
     });
   }
 
+  if (siteSearch) {
+    renderSuggestions("");
+    siteSearch.addEventListener("input", function(){
+      renderSuggestions(siteSearch.value);
+    });
+  }
+
+  if (chatBubble && chatPopover) {
+    chatBubble.addEventListener("click", function(){
+      var open = chatPopover.classList.toggle("open");
+      chatBubble.setAttribute("aria-expanded", String(open));
+      chatPopover.setAttribute("aria-hidden", String(!open));
+    });
+  }
+
   document.addEventListener("click", function(event){
     if (searchPanel && searchToggle && !event.target.closest(".nav-actions")) closeSearch();
+    if (chatPopover && chatBubble && !event.target.closest(".assist-dock")) {
+      chatPopover.classList.remove("open");
+      chatBubble.setAttribute("aria-expanded", "false");
+      chatPopover.setAttribute("aria-hidden", "true");
+    }
   });
 
   document.addEventListener("keydown", function(event){
     if (event.key === "Escape") {
       closeMenu();
       closeSearch();
+      if (chatPopover && chatBubble) {
+        chatPopover.classList.remove("open");
+        chatBubble.setAttribute("aria-expanded", "false");
+        chatPopover.setAttribute("aria-hidden", "true");
+      }
     }
   });
 
