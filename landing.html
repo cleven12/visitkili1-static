@@ -305,8 +305,178 @@ ul{ margin:0; padding:0; list-style:none; }
 /* ---- Scroll reveal (lightweight) ---- */
 .reveal{ opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
 .reveal.in{ opacity:1; transform:none; }
+
+/* ============================================================
+   Review rating strip inside utility bar (easytravel-style)
+   ============================================================ */
+.utility .u-left{ display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; }
+.rev-badge{ display:inline-flex; align-items:center; gap:.45rem; color:rgba(255,255,255,.9); }
+.rev-badge .rev-plat{ font-weight:800; letter-spacing:.01em; color:var(--white); }
+.rev-badge .rev-stars{ display:inline-flex; gap:1px; color:#F5B301; }
+.rev-badge .rev-stars svg{ width:13px; height:13px; }
+.rev-badge .rev-score{ font-weight:700; color:rgba(255,255,255,.78); }
+.rev-sep{ width:1px; height:18px; background:var(--line-green); }
+@media (max-width:1180px){ .rev-badge.rev-hide{ display:none; } .rev-sep.rev-hide{ display:none; } }
+
+/* ============================================================
+   Fluid nav dropdown menus
+   ============================================================ */
+.nav-item{ position:relative; }
+.nav-link{
+  display:inline-flex; align-items:center; gap:.3rem;
+  padding:.5rem .8rem; border-radius:8px;
+  font-family:inherit; font-weight:700; font-size:.95rem; color:var(--ink);
+  background:none; border:none; cursor:pointer; white-space:nowrap;
+  transition:color .15s ease, background-color .15s ease;
+}
+.nav-link .chev{ width:15px; height:15px; transition:transform .22s ease; }
+.nav-item:hover > .nav-link,
+.nav-item:focus-within > .nav-link{ color:var(--vk-blue); background:var(--vk-sand); }
+.nav-item:hover > .nav-link .chev,
+.nav-item:focus-within > .nav-link .chev{ transform:rotate(180deg); }
+
+.dropdown{
+  position:absolute; top:calc(100% + 8px); left:0;
+  min-width:250px;
+  background:var(--white); border:1px solid var(--line); border-radius:14px;
+  padding:.45rem;
+}
+.dropdown a{
+  display:flex; align-items:center; gap:.7rem;
+  padding:.62rem .7rem; border-radius:9px;
+  font-weight:600; font-size:.9rem; color:var(--ink);
+}
+.dropdown a b{ font-weight:700; }
+.dropdown a span{ display:block; font-size:11px; font-weight:600; color:var(--muted); }
+.dropdown a:hover{ background:var(--vk-sand); color:var(--vk-blue); }
+.dropdown a .d-ic{ display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:var(--vk-sand); color:var(--vk-orange); flex-shrink:0; }
+.dropdown a:hover .d-ic{ background:var(--white); }
+.dropdown a .d-ic svg{ width:16px; height:16px; }
+
+/* Desktop: hover reveal + large-screen-only staggered item entrance */
+@media (min-width:1081px){
+  .dropdown{
+    opacity:0; visibility:hidden; transform:translateY(10px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    z-index:60;
+  }
+  .nav-item:hover > .dropdown,
+  .nav-item:focus-within > .dropdown{ opacity:1; visibility:visible; transform:translateY(0); }
+  .dropdown a{ opacity:0; transform:translateY(8px); transition:opacity .25s ease, transform .25s ease, background-color .15s ease, color .15s ease; }
+  .nav-item:hover > .dropdown a,
+  .nav-item:focus-within > .dropdown a{ opacity:1; transform:none; }
+  .nav-item:hover > .dropdown a:nth-child(1),
+  .nav-item:focus-within > .dropdown a:nth-child(1){ transition-delay:.04s; }
+  .nav-item:hover > .dropdown a:nth-child(2),
+  .nav-item:focus-within > .dropdown a:nth-child(2){ transition-delay:.09s; }
+  .nav-item:hover > .dropdown a:nth-child(3),
+  .nav-item:focus-within > .dropdown a:nth-child(3){ transition-delay:.14s; }
+  .nav-item:hover > .dropdown a:nth-child(4),
+  .nav-item:focus-within > .dropdown a:nth-child(4){ transition-delay:.19s; }
+}
+
+/* Mobile: accordion */
+@media (max-width:1080px){
+  .nav-item{ border-bottom:1px solid var(--line); }
+  .nav-link{ width:100%; justify-content:space-between; padding:.85rem .5rem; border-radius:0; }
+  .dropdown{
+    position:static; border:none; border-radius:0; padding:0 0 .6rem .75rem; min-width:0;
+    display:none;
+  }
+  .nav-item.open > .dropdown{ display:block; }
+  .nav-item.open > .nav-link .chev{ transform:rotate(180deg); }
+  .dropdown a{ padding:.55rem .5rem; }
+}
+
+/* ============================================================
+   Snippe-style hero floating images (large screens only)
+   ============================================================ */
+.hero{ position:relative; overflow:hidden; }
+.hero > .wrap{ position:relative; z-index:2; }
+.hero-floats{ position:absolute; inset:0; z-index:1; pointer-events:none; display:none; }
+@media (min-width:1100px){ .hero-floats{ display:block; } .hero{ min-height:640px; display:flex; align-items:center; } }
+@media (min-width:1400px){ .hero-floats{ margin-inline:calc((100% - 1320px)/8); } }
+.float{
+  position:absolute; width:var(--w,150px);
+  opacity:0; transform:translateY(28px) scale(.92);
+  animation:floatIn .8s cubic-bezier(.2,.75,.25,1) forwards;
+  animation-delay:var(--in,0s);
+}
+.float-inner{
+  position:relative; border-radius:18px; overflow:hidden;
+  border:4px solid var(--white); aspect-ratio:4/5;
+  box-shadow:0 22px 45px -20px rgba(26,58,42,.5);
+  animation:floatBob var(--dur,7s) ease-in-out infinite;
+  animation-delay:var(--bob,0s);
+}
+.float img{ width:100%; height:100%; object-fit:cover; }
+.float .fcap{
+  position:absolute; left:.45rem; bottom:.45rem;
+  background:rgba(255,255,255,.94); color:var(--vk-green);
+  font-size:10px; font-weight:800; letter-spacing:.02em;
+  padding:.22rem .5rem; border-radius:999px;
+}
+@keyframes floatIn{ to{ opacity:1; transform:none; } }
+@keyframes floatBob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-16px); } }
+
+/* ============================================================
+   AI chat assistant
+   ============================================================ */
+.chat{ position:fixed; right:clamp(1rem,3vw,2rem); bottom:clamp(1rem,3vw,2rem); z-index:100; }
+.chat-fab{
+  width:60px; height:60px; border-radius:999px;
+  background:var(--vk-orange); color:var(--white); border:none; cursor:pointer;
+  display:grid; place-items:center;
+  box-shadow:0 14px 30px -8px rgba(232,114,12,.6);
+  transition:transform .2s ease, background-color .2s ease;
+}
+.chat-fab:hover{ background:var(--vk-orange-dark); transform:translateY(-2px); }
+.chat-fab svg{ width:26px; height:26px; }
+.chat-fab .ic-close{ display:none; }
+.chat.open .chat-fab{ background:var(--vk-green); }
+.chat.open .chat-fab .ic-chat{ display:none; }
+.chat.open .chat-fab .ic-close{ display:block; }
+.chat-panel{
+  position:absolute; right:0; bottom:74px;
+  width:min(370px, calc(100vw - 2rem));
+  background:var(--white); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+  display:flex; flex-direction:column; max-height:min(560px, 74vh);
+  opacity:0; visibility:hidden; transform:translateY(16px) scale(.98);
+  transition:opacity .22s ease, transform .22s ease, visibility .22s;
+}
+.chat.open .chat-panel{ opacity:1; visibility:visible; transform:none; }
+.chat-head{ background:var(--vk-green); color:var(--white); padding:1rem 1.1rem; display:flex; align-items:center; justify-content:space-between; }
+.chat-id{ display:flex; align-items:center; gap:.65rem; }
+.chat-dot{ width:9px; height:9px; border-radius:999px; background:#46d17f; box-shadow:0 0 0 3px rgba(70,209,127,.22); }
+.chat-id b{ display:block; font-size:.95rem; color:var(--white); }
+.chat-id span{ font-size:11px; color:rgba(255,255,255,.7); }
+.chat-close{ background:none; border:none; color:rgba(255,255,255,.85); cursor:pointer; width:30px; height:30px; display:grid; place-items:center; border-radius:8px; }
+.chat-close:hover{ background:rgba(255,255,255,.12); color:var(--white); }
+.chat-close svg{ width:18px; height:18px; }
+.chat-body{ flex:1; overflow-y:auto; padding:1.1rem; display:flex; flex-direction:column; gap:.65rem; background:var(--vk-sand); }
+.msg{ max-width:84%; padding:.65rem .85rem; border-radius:14px; font-size:.9rem; line-height:1.5; }
+.msg.bot{ background:var(--white); border:1px solid var(--line); color:var(--vk-green); border-bottom-left-radius:4px; align-self:flex-start; }
+.msg.user{ background:var(--vk-blue); color:var(--white); border-bottom-right-radius:4px; align-self:flex-end; }
+.msg a{ color:inherit; text-decoration:underline; }
+.typing{ display:inline-flex; gap:4px; align-items:center; }
+.typing i{ width:6px; height:6px; border-radius:50%; background:var(--muted); animation:blink 1.2s infinite; }
+.typing i:nth-child(2){ animation-delay:.2s; }
+.typing i:nth-child(3){ animation-delay:.4s; }
+@keyframes blink{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+.chat-quick{ display:flex; flex-wrap:wrap; gap:.4rem; padding:.65rem 1.1rem; border-top:1px solid var(--line); background:var(--white); }
+.chip{ font-family:inherit; font-size:12px; font-weight:700; color:var(--vk-green); background:var(--vk-sand); border:1px solid var(--line); border-radius:999px; padding:.35rem .7rem; cursor:pointer; transition:border-color .15s ease, color .15s ease; }
+.chip:hover{ border-color:var(--vk-green); color:var(--vk-blue); }
+.chat-input{ display:flex; gap:.5rem; padding:.75rem; border-top:1px solid var(--line); background:var(--white); }
+.chat-input input{ flex:1; font-family:inherit; font-size:.9rem; padding:.65rem .8rem; border:1px solid var(--line); border-radius:10px; outline:none; color:var(--ink); }
+.chat-input input:focus{ border-color:var(--vk-blue); }
+.chat-input button{ width:46px; border:none; border-radius:10px; background:var(--vk-orange); color:var(--white); cursor:pointer; display:grid; place-items:center; }
+.chat-input button:hover{ background:var(--vk-orange-dark); }
+.chat-input button svg{ width:18px; height:18px; }
+
 @media (prefers-reduced-motion:reduce){
   .reveal{ opacity:1; transform:none; transition:none; }
+  .float{ opacity:1; transform:none; animation:none; }
+  .float-inner{ animation:none; }
   html{ scroll-behavior:auto; }
 }
 </style>
@@ -317,16 +487,39 @@ ul{ margin:0; padding:0; list-style:none; }
 <div class="utility">
   <div class="wrap">
     <div class="u-left">
-      <a href="tel:+255741788255">
+      <span class="rev-badge" title="TripAdvisor rating">
+        <span class="rev-plat">TripAdvisor</span>
+        <span class="rev-stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+        </span>
+        <span class="rev-score">4.9 · 1,200+ reviews</span>
+      </span>
+      <span class="rev-sep" aria-hidden="true"></span>
+      <span class="rev-badge rev-hide" title="Google rating">
+        <span class="rev-plat">Google</span>
+        <span class="rev-stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+        </span>
+        <span class="rev-score">4.8</span>
+      </span>
+      <span class="rev-sep rev-hide" aria-hidden="true"></span>
+      <span class="rev-badge rev-hide" title="SafariBookings rating">
+        <span class="rev-plat">SafariBookings</span>
+        <span class="rev-stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9.9-5 4.8 1.2 6.9L12 17.8 5.9 20.9 7.1 14 2.1 9.2 9 8.3z"/></svg>
+        </span>
+        <span class="rev-score">5.0</span>
+      </span>
+    </div>
+    <div class="u-right">
+      <a href="tel:+255741788255" class="rev-hide" style="margin-right:.5rem;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         +255 741 788 255
       </a>
-      <a href="mailto:info@visitkili.com">
+      <a href="mailto:info@visitkili.com" style="margin-right:.75rem;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
         info@visitkili.com
       </a>
-    </div>
-    <div class="u-right">
       <a class="u-social" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
       <a class="u-social" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
       <a class="u-social" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.53A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12c1.89.53 9.39.53 9.39.53s7.5 0 9.39-.53a3 3 0 0 0 2.11-2.12A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg></a>
@@ -345,12 +538,60 @@ ul{ margin:0; padding:0; list-style:none; }
     </a>
 
     <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="#tours">Kilimanjaro</a>
-      <a href="#tours">Safaris</a>
-      <a href="#tours">Zanzibar</a>
-      <a href="#tours">Day Trips</a>
-      <a href="#reviews">Guides</a>
-      <a href="#why">About</a>
+      <div class="nav-item has-menu">
+        <button class="nav-link" type="button" aria-haspopup="true" aria-expanded="false">
+          Kilimanjaro
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg></span><span><b>Machame Route</b><span>7 days · scenic &amp; popular</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg></span><span><b>Marangu Route</b><span>6 days · hut accommodation</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg></span><span><b>Lemosho Route</b><span>8 days · best acclimatization</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m3 20 5-9 3 5 3-6 7 10z"/></svg></span><span><b>Rongai Route</b><span>7 days · quiet northern trail</span></span></a>
+        </div>
+      </div>
+
+      <div class="nav-item has-menu">
+        <button class="nav-link" type="button" aria-haspopup="true" aria-expanded="false">
+          Safaris
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg></span><span><b>Serengeti Migration</b><span>Great wildebeest crossing</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg></span><span><b>Ngorongoro Crater</b><span>Big Five in one day</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg></span><span><b>Tarangire Park</b><span>Elephants &amp; baobabs</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg></span><span><b>Northern Circuit</b><span>8-day grand safari</span></span></a>
+        </div>
+      </div>
+
+      <div class="nav-item has-menu">
+        <button class="nav-link" type="button" aria-haspopup="true" aria-expanded="false">
+          Zanzibar
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20s2-2 5-2 4 2 7 2 5-2 5-2M2 15s2-2 5-2 4 2 7 2 5-2 5-2"/><path d="M12 3v6"/></svg></span><span><b>Beach Getaway</b><span>5 days on white sand</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20s2-2 5-2 4 2 7 2 5-2 5-2M2 15s2-2 5-2 4 2 7 2 5-2 5-2"/><path d="M12 3v6"/></svg></span><span><b>Stone Town Tour</b><span>Historic UNESCO quarter</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20s2-2 5-2 4 2 7 2 5-2 5-2M2 15s2-2 5-2 4 2 7 2 5-2 5-2"/><path d="M12 3v6"/></svg></span><span><b>Spice Farm Tour</b><span>Taste the Spice Island</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20s2-2 5-2 4 2 7 2 5-2 5-2M2 15s2-2 5-2 4 2 7 2 5-2 5-2"/><path d="M12 3v6"/></svg></span><span><b>Snorkeling Trips</b><span>Mnemba atoll reefs</span></span></a>
+        </div>
+      </div>
+
+      <div class="nav-item has-menu">
+        <button class="nav-link" type="button" aria-haspopup="true" aria-expanded="false">
+          Day Trips
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20s2-3 5-3 4 2 7 2 5-3 5-3"/><path d="M8 4v5M16 4v5"/></svg></span><span><b>Materuni Waterfalls</b><span>Falls &amp; coffee walk</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20s2-3 5-3 4 2 7 2 5-3 5-3"/><path d="M8 4v5M16 4v5"/></svg></span><span><b>Chemka Hot Springs</b><span>Turquoise oasis swim</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20s2-3 5-3 4 2 7 2 5-3 5-3"/><path d="M8 4v5M16 4v5"/></svg></span><span><b>Arusha National Park</b><span>Mount Meru foothills</span></span></a>
+          <a href="#tours"><span class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20s2-3 5-3 4 2 7 2 5-3 5-3"/><path d="M8 4v5M16 4v5"/></svg></span><span><b>Coffee Plantation</b><span>Bean-to-cup experience</span></span></a>
+        </div>
+      </div>
+
+      <div class="nav-item"><a class="nav-link" href="#reviews">Guides</a></div>
+      <div class="nav-item"><a class="nav-link" href="#why">About</a></div>
     </nav>
 
     <div class="nav-cta">
@@ -366,6 +607,14 @@ ul{ margin:0; padding:0; list-style:none; }
 
   <!-- 3. Hero -->
   <section class="hero">
+    <div class="hero-floats" id="heroFloats" aria-hidden="true">
+      <div class="float" style="top:6%; left:1%; --w:150px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_320,h_400,c_fill,g_auto,q_auto,f_auto/v1776422448/tours/bghlezhg6cncafpuef8o.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Serengeti</span></div></div>
+      <div class="float" style="top:44%; left:5%; --w:120px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_260,h_325,c_fill,g_auto,q_auto,f_auto/v1776420993/tours/inbyk7cbzofrsq7luez0.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Wildlife</span></div></div>
+      <div class="float" style="top:72%; left:2%; --w:135px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_290,h_360,c_fill,g_auto,q_auto,f_auto/v1776416642/tours/jnvpjaklccefkkmgemhk.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Kilimanjaro</span></div></div>
+      <div class="float" style="top:5%; right:2%; --w:150px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_320,h_400,c_fill,g_auto,q_auto,f_auto/v1764430305/tours/gjgyfdgqgwcwia7auxk8.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Zanzibar</span></div></div>
+      <div class="float" style="top:46%; right:6%; --w:118px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_260,h_325,c_fill,g_auto,q_auto,f_auto/v1764428889/tours/wtfc7vwljo20aiuslsoj.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Ngorongoro</span></div></div>
+      <div class="float" style="top:71%; right:1%; --w:140px;"><div class="float-inner"><img src="https://res.cloudinary.com/ducpxtvfj/image/upload/w_300,h_375,c_fill,g_auto,q_auto,f_auto/v1764428698/tours/mvcn7ra4fuduzbhykgrn.jpg" alt="" loading="eager" decoding="async"><span class="fcap">Safari</span></div></div>
+    </div>
     <div class="wrap reveal">
       <span class="eyebrow">Tanzania Safari &amp; Trekking Specialists</span>
       <h1>Climb Kilimanjaro. See the Serengeti. Relax in Zanzibar.</h1>
@@ -715,6 +964,33 @@ ul{ margin:0; padding:0; list-style:none; }
   </div>
 </footer>
 
+<!-- AI chat assistant -->
+<div class="chat" id="chat">
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Kili trip assistant">
+    <div class="chat-head">
+      <div class="chat-id">
+        <span class="chat-dot" aria-hidden="true"></span>
+        <div><b>Kili Assistant</b><span>Typically replies instantly</span></div>
+      </div>
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="chat-body" id="chatBody" aria-live="polite"></div>
+    <div class="chat-quick" id="chatQuick"></div>
+    <form class="chat-input" id="chatForm">
+      <input id="chatText" type="text" placeholder="Ask about tours, prices, dates…" autocomplete="off" aria-label="Message">
+      <button type="submit" aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
+  </div>
+  <button class="chat-fab" id="chatFab" type="button" aria-label="Open chat assistant" aria-expanded="false">
+    <svg class="ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
 <script>
   // Mobile nav toggle
   (function(){
@@ -726,9 +1002,129 @@ ul{ margin:0; padding:0; list-style:none; }
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
       links.addEventListener('click', function(e){
-        if(e.target.tagName === 'A'){ links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+        if(e.target.tagName === 'A' && !e.target.classList.contains('nav-link')){
+          links.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+        }
       });
     }
+  })();
+
+  // Nav dropdowns — accordion toggle on mobile, hover handles desktop
+  (function(){
+    var mq = window.matchMedia('(max-width:1080px)');
+    document.querySelectorAll('.nav-item.has-menu > .nav-link').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        if(mq.matches){
+          e.preventDefault();
+          var item = btn.parentElement;
+          var open = item.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+      });
+    });
+  })();
+
+  // Hero floating images — randomize entrance + bob timing (Snippe-style)
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var floats = document.querySelectorAll('#heroFloats .float');
+    floats.forEach(function(el){
+      var inEl = (Math.random()*0.6).toFixed(2);
+      var dur  = (5.5 + Math.random()*3).toFixed(2);
+      var bob  = (-Math.random()*dur).toFixed(2);
+      el.style.setProperty('--in', inEl + 's');
+      var inner = el.querySelector('.float-inner');
+      if(inner){
+        inner.style.setProperty('--dur', dur + 's');
+        inner.style.setProperty('--bob', bob + 's');
+      }
+      // subtle random position jitter
+      var jx = (Math.random()*3 - 1.5).toFixed(1);
+      var jy = (Math.random()*3 - 1.5).toFixed(1);
+      el.style.marginLeft = jx + '%';
+      el.style.marginTop  = jy + '%';
+    });
+  })();
+
+  // AI chat assistant (lightweight, rule-based)
+  (function(){
+    var chat  = document.getElementById('chat');
+    var fab   = document.getElementById('chatFab');
+    var close = document.getElementById('chatClose');
+    var body  = document.getElementById('chatBody');
+    var quick = document.getElementById('chatQuick');
+    var form  = document.getElementById('chatForm');
+    var input = document.getElementById('chatText');
+    if(!chat || !fab) return;
+
+    var chips = ['Kilimanjaro prices','Best time to visit','Safari options','Zanzibar add-on','Book a trip'];
+    var started = false;
+
+    function open(){
+      chat.classList.add('open');
+      fab.setAttribute('aria-expanded','true');
+      if(!started){ started = true; greet(); }
+      setTimeout(function(){ input.focus(); }, 200);
+    }
+    function shut(){ chat.classList.remove('open'); fab.setAttribute('aria-expanded','false'); }
+
+    function scroll(){ body.scrollTop = body.scrollHeight; }
+    function addMsg(text, who){
+      var d = document.createElement('div');
+      d.className = 'msg ' + who;
+      d.innerHTML = text;
+      body.appendChild(d); scroll();
+      return d;
+    }
+    function renderChips(){
+      quick.innerHTML = '';
+      chips.forEach(function(c){
+        var b = document.createElement('button');
+        b.type='button'; b.className='chip'; b.textContent=c;
+        b.addEventListener('click', function(){ send(c); });
+        quick.appendChild(b);
+      });
+    }
+    function greet(){
+      addMsg("Jambo! 👋 I'm the Kili Assistant. Ask me about Kilimanjaro routes, safaris, Zanzibar, pricing, or the best time to travel.", 'bot');
+      renderChips();
+    }
+    function botReply(q){
+      var t = q.toLowerCase();
+      if(/(price|cost|how much|budget|\$)/.test(t))
+        return "Our Kilimanjaro treks start around <b>$1,790</b> (Marangu, 6 days) and safaris from <b>$1,490</b>. Every quote is all-inclusive with no hidden fees. Want a free custom quote? Tap <a href='#plan'>Plan My Trip</a>.";
+      if(/(kilimanjaro|climb|trek|machame|marangu|lemosho|rongai|summit)/.test(t))
+        return "We run all major Kilimanjaro routes: <b>Machame (7d)</b>, <b>Lemosho (8d, best success rate)</b>, <b>Marangu (6d)</b> and <b>Rongai (7d)</b>. Small groups, certified guides, and daily health checks. Which route interests you?";
+      if(/(safari|serengeti|ngorongoro|tarangire|wildlife|big five|migration)/.test(t))
+        return "Popular safaris include the <b>Serengeti Migration (5d)</b>, <b>Ngorongoro Crater</b>, and the <b>8-day Northern Circuit</b>. All private, with a 4x4 and expert guide. Add a balloon safari for a sunrise you'll never forget!";
+      if(/(zanzibar|beach|island|stone town|spice|snorkel)/.test(t))
+        return "Zanzibar pairs perfectly with a climb or safari — <b>5-day beach getaways</b>, Stone Town tours, spice farms and Mnemba snorkeling. We handle flights and transfers end to end.";
+      if(/(best time|when|season|month|weather)/.test(t))
+        return "Best climbing months are <b>Jan–Mar</b> and <b>Jun–Oct</b> (dry, clear). For the Serengeti migration, <b>Jun–Jul</b> (river crossings) and <b>Jan–Feb</b> (calving) are superb. Zanzibar shines <b>Jun–Oct</b>.";
+      if(/(book|plan|reserve|quote|itinerary|contact|email|phone)/.test(t))
+        return "Wonderful! Share your dates and interests and we'll send a free, no-obligation plan within 24 hours. Email <a href='mailto:info@visitkili.com'>info@visitkili.com</a> or call <a href='tel:+255741788255'>+255 741 788 255</a>.";
+      if(/(hi|hello|jambo|hey|habari)/.test(t))
+        return "Jambo! How can I help plan your Tanzania adventure today?";
+      return "Great question! For specifics like custom itineraries and availability, our team can help directly — tap <a href='#plan'>Plan My Trip</a> or ask me about <b>Kilimanjaro</b>, <b>safaris</b>, <b>Zanzibar</b>, <b>pricing</b>, or the <b>best time to visit</b>.";
+    }
+    function send(q){
+      addMsg(q.replace(/</g,'&lt;'), 'user');
+      input.value = '';
+      var typing = addMsg("<span class='typing'><i></i><i></i><i></i></span>", 'bot');
+      setTimeout(function(){
+        typing.innerHTML = botReply(q);
+        scroll();
+      }, 650);
+    }
+
+    fab.addEventListener('click', function(){ chat.classList.contains('open') ? shut() : open(); });
+    close.addEventListener('click', shut);
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = input.value.trim();
+      if(v) send(v);
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') shut(); });
   })();
 
   // Lightweight scroll reveal
